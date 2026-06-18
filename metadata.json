@@ -1,0 +1,6 @@
+{
+  "name": "TSMC ILC",
+  "description": "TSMC ILC Chemical Tank Truck Transfer Hub Mobile PDA System",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
