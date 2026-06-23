@@ -63,14 +63,14 @@ class PunchFragment : Fragment(), VirtualKeyboardDialog.Listener {
             }
         }
 
-        binding.txtShiftList.text = MockData.shifts.joinToString("\n\n") {
+        binding.txtShiftList.text = appVm.shifts.joinToString("\n\n") {
             "${it.date} ${it.shiftType}\n${it.assignedStaff.joinToString("、")}"
         }
     }
 
     private fun showIdDialog() {
         val title = if (punchMode == MODE_CLOCK_IN) getString(R.string.punch_clock_in) else getString(R.string.punch_clock_out)
-        VirtualKeyboardDialog.newInstance(title, MockData.staffList.map { it.id })
+        VirtualKeyboardDialog.newInstance(title, appVm.staffList.map { it.id })
             .show(childFragmentManager, "punch_id")
     }
 

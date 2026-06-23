@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EquipInspectAndroid 專案架構指南</title>
+  <style>
+    :root {
+      --bg: #0f1419;
+      --surface: #1a2332;
+      --surface2: #243044;
+      --border: #2d3a4f;
+      --text: #e6edf3;
+      --muted: #8b949e;
+      --accent: #58a6ff;
+      --green: #3fb950;
+      --orange: #d29922;
+      --purple: #bc8cff;
+      --pink: #f778ba;
+      --java: #b07219;
+      --kotlin: #7f52ff;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Segoe UI", "Noto Sans TC", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 2rem 1.5rem 4rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    header {
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    header h1 { font-size: 1.75rem; font-weight: 600; margin-bottom: 0.5rem; }
+    header p { color: var(--muted); font-size: 0.95rem; }
+    .badge-row { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
+    .badge {
+      font-size: 0.75rem;
+      padding: 0.25rem 0.6rem;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+    }
+    .badge.kotlin { border-color: var(--kotlin); color: var(--kotlin); }
+    .badge.java { border-color: var(--java); color: var(--java); }
+    section { margin-bottom: 2.5rem; }
+    h2 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      padding-left: 0.75rem;
+      border-left: 3px solid var(--accent);
+    }
+    h3 { font-size: 1rem; font-weight: 600; margin: 1.25rem 0 0.75rem; color: var(--accent); }
+    p, li { color: var(--muted); font-size: 0.9rem; }
+    p { margin-bottom: 0.75rem; }
+    ul { padding-left: 1.25rem; margin-bottom: 0.75rem; }
+    li { margin-bottom: 0.35rem; }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+    }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    @media (max-width: 768px) { .grid-2 { grid-template-columns: 1fr; } }
+
+    /* Architecture diagram */
+    .arch-flow {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      align-items: center;
+    }
+    .layer {
+      width: 100%;
+      max-width: 680px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+      text-align: center;
+      position: relative;
+    }
+    .layer.ui { background: rgba(88,166,255,0.08); border-color: rgba(88,166,255,0.4); }
+    .layer.vm { background: rgba(188,140,255,0.08); border-color: rgba(188,140,255,0.4); }
+    .layer.repo { background: rgba(63,185,80,0.08); border-color: rgba(63,185,80,0.4); }
+    .layer.data { background: rgba(210,153,34,0.08); border-color: rgba(210,153,34,0.4); }
+    .layer-title { font-weight: 600; font-size: 0.85rem; margin-bottom: 0.35rem; }
+    .layer-items { font-size: 0.8rem; color: var(--muted); }
+    .arrow {
+      width: 2px;
+      height: 24px;
+      background: var(--border);
+      position: relative;
+    }
+    .arrow::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      border: 5px solid transparent;
+      border-top-color: var(--border);
+    }
+    .arrow-label {
+      font-size: 0.7rem;
+      color: var(--muted);
+      margin: -4px 0;
+    }
+
+    /* Folder tree */
+    .tree {
+      font-family: "Cascadia Code", "Consolas", monospace;
+      font-size: 0.8rem;
+      background: var(--surface2);
+      border-radius: 6px;
+      padding: 1rem;
+      overflow-x: auto;
+      line-height: 1.8;
+    }
+    .tree .dir { color: var(--accent); }
+    .tree .file { color: var(--muted); }
+    .tree .highlight { color: var(--green); }
+
+    /* Code blocks */
+    pre {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 1rem;
+      overflow-x: auto;
+      font-size: 0.78rem;
+      line-height: 1.55;
+      margin: 0.75rem 0;
+    }
+    code { font-family: "Cascadia Code", "Consolas", monospace; }
+    .kw { color: var(--purple); }
+    .fn { color: var(--accent); }
+    .str { color: var(--green); }
+    .ann { color: var(--orange); }
+    .cmt { color: #6e7681; }
+    .type { color: var(--pink); }
+
+    /* Compare table */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+      margin: 0.75rem 0;
+    }
+    th, td {
+      border: 1px solid var(--border);
+      padding: 0.6rem 0.75rem;
+      text-align: left;
+    }
+    th { background: var(--surface2); color: var(--text); font-weight: 600; }
+    td { color: var(--muted); }
+    td:first-child { color: var(--text); font-weight: 500; white-space: nowrap; }
+
+    /* Screen layout mock */
+    .phone-mock {
+      max-width: 320px;
+      margin: 1rem auto;
+      border: 2px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      background: #2d3748;
+    }
+    .phone-top {
+      background: var(--accent);
+      color: #fff;
+      text-align: center;
+      padding: 0.5rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    .phone-content {
+      min-height: 180px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      font-size: 0.8rem;
+      background: #4a5568;
+    }
+    .phone-bottom {
+      display: flex;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+    }
+    .phone-bottom span {
+      flex: 1;
+      text-align: center;
+      padding: 0.6rem 0.25rem;
+      font-size: 0.65rem;
+      color: var(--muted);
+      border-right: 1px solid var(--border);
+    }
+    .phone-bottom span:last-child { border-right: none; }
+    .phone-bottom span.active { color: var(--accent); }
+
+    /* API flow */
+    .api-steps {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      align-items: center;
+      margin: 1rem 0;
+    }
+    .step {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.5rem 0.75rem;
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+    .step-arrow { color: var(--border); font-size: 1.2rem; }
+
+    .tabs { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.75rem; }
+    .tab {
+      padding: 0.35rem 0.75rem;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      background: var(--surface);
+      color: var(--muted);
+    }
+    .tab.active { border-color: var(--accent); color: var(--accent); background: rgba(88,166,255,0.1); }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    footer {
+      margin-top: 3rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>EquipInspectAndroid 專案架構指南</h1>
+  <p>給 8 年沒寫 Android、以前用 Java 的開發者 — 快速對照本專案的現代寫法</p>
+  <div class="badge-row">
+    <span class="badge kotlin">Kotlin</span>
+    <span class="badge">XML Layout（非 Compose）</span>
+    <span class="badge">ViewBinding</span>
+    <span class="badge">MVVM + Hilt</span>
+    <span class="badge">Room + OkHttp</span>
+    <span class="badge java">你以前的 Java 時代</span>
+  </div>
+</header>
+
+<!-- ========== 1. 架構總覽 ========== -->
+<section>
+  <h2>1. 專案架構總覽（MVVM 分層）</h2>
+  <p>這個 App 是<strong>設備巡檢</strong>工具：離線登入 → 下載任務 → 掃描巡檢 → 上傳結果。採用 Google 推薦的 MVVM，但 UI 仍用傳統 XML（不是 Jetpack Compose）。</p>
+
+  <div class="arch-flow">
+    <div class="layer ui">
+      <div class="layer-title" style="color:var(--accent)">UI 層</div>
+      <div class="layer-items">Activity / Fragment + XML Layout + ViewBinding<br>LoginActivity · MainActivity · 各功能 Fragment</div>
+    </div>
+    <div class="arrow"></div>
+    <div class="arrow-label">collect StateFlow · 按鈕呼叫 ViewModel 方法</div>
+    <div class="arrow"></div>
+    <div class="layer vm">
+      <div class="layer-title" style="color:var(--purple)">ViewModel 層</div>
+      <div class="layer-items">LoginViewModel · DownloadViewModel · InspectViewModel …<br>管理 UiState、呼叫 Repository、用 Coroutine 做非同步</div>
+    </div>
+    <div class="arrow"></div>
+    <div class="arrow-label">suspend fun · Result&lt;T&gt;</div>
+    <div class="arrow"></div>
+    <div class="layer repo">
+      <div class="layer-title" style="color:var(--green)">Repository 層</div>
+      <div class="layer-items">LocalRepository（Room 本地 DB）<br>ApiRepository（OkHttp 網路請求）</div>
+    </div>
+    <div class="arrow"></div>
+    <div class="arrow-label">Entity / DTO / Mapper</div>
+    <div class="arrow"></div>
+    <div class="layer data">
+      <div class="layer-title" style="color:var(--orange)">資料層</div>
+      <div class="layer-items">Room SQLite · DataStore 偏好設定 · OkHttp POST JSON<br>AES 加密 Token · kotlinx.serialization 解析</div>
+    </div>
+  </div>
+
+  <h3>目錄結構（重點資料夾）</h3>
+  <div class="tree">
+<span class="dir">app/src/main/java/com/yuchens/equipinspectandroid/</span>
+├── <span class="highlight">MyApp.kt</span>              <span class="cmt">// Application 入口，@HiltAndroidApp</span>
+├── <span class="dir">ui/</span>
+│   ├── LoginActivity.kt · MainActivity.kt
+│   ├── <span class="dir">fragment/</span>          <span class="cmt">// Download / Inspect / Upload …</span>
+│   ├── <span class="dir">viewmodel/</span>         <span class="cmt">// 每個畫面一個 ViewModel</span>
+│   ├── <span class="dir">adapter/</span>           <span class="cmt">// RecyclerView 列表</span>
+│   └── <span class="dir">base/BaseFragment.kt</span>
+├── <span class="dir">data/</span>
+│   ├── <span class="dir">local/</span>             <span class="cmt">// Room Entity + Dao + AppDatabase</span>
+│   ├── <span class="dir">remote/</span>            <span class="cmt">// ApiConfig · ApiParser · DTO</span>
+│   ├── <span class="dir">repository/</span>        <span class="cmt">// LocalRepository · ApiRepository</span>
+│   └── <span class="dir">mapper/</span>            <span class="cmt">// DTO ↔ Entity ↔ UI Model</span>
+├── <span class="dir">di/DatabaseModule.kt</span>   <span class="cmt">// Hilt 依賴注入</span>
+└── <span class="dir">util/</span>                  <span class="cmt">// AESHelper · UserPrefs · ConfigStore …</span>
+
+<span class="dir">app/src/main/res/layout/</span>     <span class="cmt">// XML 版面（activity_*.xml, fragment_*.xml）</span>
+  </div>
+</section>
+
+<!-- ========== 2. 畫面結構 ========== -->
+<section>
+  <h2>2. 畫面導航結構</h2>
+  <div class="grid-2">
+    <div class="card">
+      <p>啟動流程：<strong>LoginActivity</strong> → 驗證本地 Room 使用者 → 進入 <strong>MainActivity</strong></p>
+      <p>MainActivity 固定頂部 TopNav + 底部 BottomNav，中間 container 切換 Fragment：</p>
+      <ul>
+        <li>Download — 下載任務資料</li>
+        <li>Uninspected — 未巡檢列表</li>
+        <li>Inspect — 掃描巡檢</li>
+        <li>Inspected — 已巡檢列表</li>
+        <li>Upload — 上傳結果</li>
+        <li>Setting — 設定伺服器 URL 等</li>
+      </ul>
+    </div>
+    <div class="phone-mock">
+      <div class="phone-top">TopNavFragment（使用者 / Wi-Fi）</div>
+      <div class="phone-content">containerFragment<br>（功能 Fragment 切換區）</div>
+      <div class="phone-bottom">
+        <span class="active">下載</span>
+        <span>未巡</span>
+        <span>巡檢</span>
+        <span>已巡</span>
+        <span>上傳</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 3. Java → Kotlin ========== -->
+<section>
+  <h2>3. 語法對照：Java 8 年後 → 本專案 Kotlin</h2>
+  <table>
+    <thead>
+      <tr><th>概念</th><th>以前 Java</th><th>現在 Kotlin（本專案）</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>空值安全</td><td>可能 NPE，手動判 null</td><td><code>String?</code> 可空型別，<code>?.let { }</code></td></tr>
+      <tr><td>資料類別</td><td>POJO + getter/setter</td><td><code>data class EquipDto(...)</code></td></tr>
+      <tr><td>非同步</td><td>AsyncTask / Handler</td><td><code>viewModelScope.launch { }</code> + Coroutines</td></tr>
+      <tr><td>觀察資料</td><td>LiveData.observe()</td><td><code>StateFlow</code> + <code>collect { }</code>（更現代）</td></tr>
+      <tr><td>findViewById</td><td><code>findViewById(R.id.xxx)</code></td><td><strong>ViewBinding</strong>：<code>binding.etUsername</code></td></tr>
+      <tr><td>依賴注入</td><td>手動 new 或 Dagger 2 繁瑣設定</td><td><strong>Hilt</strong>：<code>@Inject constructor(...)</code></td></tr>
+      <tr><td>本地 DB</td><td>SQLiteOpenHelper</td><td><strong>Room</strong>：Entity + Dao + @Query</td></tr>
+      <tr><td>網路</td><td>Retrofit + Gson 常見</td><td>本專案用 <strong>OkHttp 原生</strong> + kotlinx.serialization</td></tr>
+      <tr><td>設定儲存</td><td>SharedPreferences</td><td><strong>DataStore</strong>（UserPrefs）</td></tr>
+      <tr><td>Activity 注入</td><td>—</td><td><code>@AndroidEntryPoint</code> 標在 Activity/Fragment</td></tr>
+    </tbody>
+  </table>
+
+  <div class="tabs" role="tablist">
+    <button class="tab active" onclick="showTab('kotlin-basic')">Kotlin 基礎</button>
+    <button class="tab" onclick="showTab('kotlin-vm')">ViewModel 模式</button>
+    <button class="tab" onclick="showTab('kotlin-hilt')">Hilt 注入</button>
+  </div>
+
+  <div id="kotlin-basic" class="tab-panel active card">
+    <pre><code><span class="cmt">// sealed class = 有限狀態的 union type（比 enum 更強）</span>
+<span class="kw">sealed class</span> <span class="type">UiState</span> {
+    <span class="kw">object</span> Idle : UiState()
+    <span class="kw">object</span> Loading : UiState()
+    <span class="kw">data class</span> Error(<span class="kw">val</span> message: <span class="type">String</span>) : UiState()
+    <span class="kw">data class</span> Success(<span class="kw">val</span> username: <span class="type">String</span>) : UiState()
+}
+
+<span class="cmt">// when 取代 switch，且會檢查是否 exhaustive</span>
+<span class="kw">when</span> (st) {
+    <span class="kw">is</span> UiState.Loading -> setLoading(<span class="kw">true</span>)
+    <span class="kw">is</span> UiState.Error -> toast(st.message)
+    <span class="kw">is</span> UiState.Success -> navigate()
+    <span class="kw">else</span> -> { }
+}</code></pre>
+  </div>
+
+  <div id="kotlin-vm" class="tab-panel card">
+    <pre><code><span class="ann">@HiltViewModel</span>
+<span class="kw">class</span> <span class="type">LoginViewModel</span> <span class="ann">@Inject constructor</span>(
+    <span class="kw">private val</span> repo: <span class="type">LocalRepository</span>
+) : <span class="type">ViewModel</span>() {
+
+    <span class="kw">private val</span> _state = MutableStateFlow&lt;UiState&gt;(UiState.Idle)
+    <span class="kw">val</span> state: StateFlow&lt;UiState&gt; = _state   <span class="cmt">// 對外唯讀</span>
+
+    <span class="kw">fun</span> <span class="fn">login</span>(username: <span class="type">String</span>, password: <span class="type">String</span>) {
+        viewModelScope.launch {              <span class="cmt">// 自動隨 ViewModel 生命週期取消</span>
+            <span class="kw">val</span> user = repo.validateUser(username, password)
+            _state.value = <span class="kw">if</span> (user != <span class="kw">null</span>) UiState.Success(...)
+                           <span class="kw">else</span> UiState.Error(<span class="str">"帳號或密碼錯誤"</span>)
+        }
+    }
+}</code></pre>
+  </div>
+
+  <div id="kotlin-hilt" class="tab-panel card">
+    <pre><code><span class="cmt">// Application</span>
+<span class="ann">@HiltAndroidApp</span>
+<span class="kw">class</span> <span class="type">MyApp</span> : Application()
+
+<span class="cmt">// Activity 需要注入時</span>
+<span class="ann">@AndroidEntryPoint</span>
+<span class="kw">class</span> <span class="type">MainActivity</span> : AppCompatActivity() {
+    <span class="kw">private val</span> vm: NavViewModel <span class="kw">by</span> viewModels()  <span class="cmt">// Hilt 自動提供</span>
+}
+
+<span class="cmt">// Module 提供 Singleton</span>
+<span class="ann">@Module @InstallIn(SingletonComponent::class)</span>
+<span class="kw">object</span> DatabaseModule {
+    <span class="ann">@Provides @Singleton</span>
+    <span class="kw">fun</span> <span class="fn">provideLocalRepository</span>(db: AppDatabase) = LocalRepository(db)
+}</code></pre>
+  </div>
+</section>
+
+<!-- ========== 4. UI 語法 ========== -->
+<section>
+  <h2>4. UI 語法：XML + ViewBinding + Fragment</h2>
+  <p>本專案<strong>沒有使用 Jetpack Compose</strong>，仍是 XML 宣告式版面 + Kotlin 程式邏輯。ViewBinding 自動產生型別安全的 binding 物件。</p>
+
+  <h3>XML Layout（res/layout/）</h3>
+  <pre><code><span class="cmt">&lt;!-- activity_login.xml 片段 --&gt;</span>
+&lt;androidx.constraintlayout.widget.ConstraintLayout ...&gt;
+    &lt;EditText
+        android:id="@+id/etUsername"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" /&gt;
+    &lt;Button
+        android:id="@+id/btnLogin"
+        android:text="@string/desc_login" /&gt;
+&lt;/androidx.constraintlayout.widget.ConstraintLayout&gt;</code></pre>
+
+  <h3>Kotlin 綁定（取代 findViewById）</h3>
+  <pre><code><span class="cmt">// Activity</span>
+binding = ActivityLoginBinding.inflate(layoutInflater)
+setContentView(binding.root)
+binding.btnLogin.setOnClickListener { ... }
+binding.etUsername.text.toString()
+
+<span class="cmt">// Fragment（注意生命週期，onDestroyView 清掉 binding）</span>
+<span class="kw">private var</span> _binding: FragmentDownloadBinding? = <span class="kw">null</span>
+<span class="kw">private val</span> binding <span class="kw">get</span>() = _binding!!
+_binding = FragmentDownloadBinding.inflate(inflater, container, <span class="kw">false</span>)
+<span class="kw">override fun</span> onDestroyView() { _binding = <span class="kw">null</span>; super.onDestroyView() }</code></pre>
+
+  <h3>觀察 ViewModel 狀態（取代 LiveData.observe）</h3>
+  <pre><code>lifecycleScope.launch {
+    repeatOnLifecycle(Lifecycle.State.STARTED) {
+        vm.state.collect { st ->
+            <span class="kw">when</span> (st) {
+                <span class="kw">is</span> UiState.Loading -> setLoading(<span class="kw">true</span>)
+                <span class="kw">is</span> UiState.Error -> Toast.makeText(..., st.message, ...).show()
+                <span class="kw">is</span> UiState.Success -> startActivity(...)
+            }
+        }
+    }
+}</code></pre>
+
+  <div class="card">
+    <strong>RecyclerView 列表</strong>：各列表 Fragment 使用 <code>EquipCardAdapter</code> + <code>item_equip_card.xml</code>。<br>
+    <strong>自訂 View</strong>：<code>WifiSignalView</code>、<code>EquipDetailBottomSheet</code> 等 widget。<br>
+    <strong>Material Design</strong>：CardView、DrawerLayout 側邊選單、Bottom Navigation。
+  </div>
+</section>
+
+<!-- ========== 5. 後端 / 網路語法 ========== -->
+<section>
+  <h2>5. 後端 / 網路語法</h2>
+  <p>API 走 REST POST JSON，驗證靠 Header <code>X-Device-Token</code>（AES 加密的 AndroidId + UserNo）。<strong>沒用 Retrofit</strong>，直接用 OkHttp。</p>
+
+  <div class="api-steps">
+    <span class="step">ViewModel 呼叫</span>
+    <span class="step-arrow">→</span>
+    <span class="step">ApiRepository.upload()</span>
+    <span class="step-arrow">→</span>
+    <span class="step">OkHttp POST</span>
+    <span class="step-arrow">→</span>
+    <span class="step">ApiParser 解析 Envelope</span>
+    <span class="step-arrow">→</span>
+    <span class="step">LocalRepository 更新 Room</span>
+  </div>
+
+  <h3>API 端點（ApiConfig.kt）</h3>
+  <table>
+    <tr><td>POST /api/app/ping</td><td>連線測試</td></tr>
+    <tr><td>POST /api/app/download</td><td>下載使用者 + 設備 + 異常選項</td></tr>
+    <tr><td>POST /api/app/upload</td><td>上傳已巡檢設備</td></tr>
+  </table>
+
+  <h3>回應格式（統一 Envelope）</h3>
+  <pre><code>{
+  <span class="str">"Success"</span>: <span class="kw">true</span>,
+  <span class="str">"Message"</span>: <span class="str">"OK"</span>,
+  <span class="str">"Data"</span>: { ... }   <span class="cmt">// 或數字、陣列，依 API 而定</span>
+}</code></pre>
+
+  <h3>DTO 定義（kotlinx.serialization）</h3>
+  <pre><code><span class="ann">@Serializable</span>
+<span class="kw">data class</span> <span class="type">ApiEnvelope</span>&lt;T&gt;(
+    <span class="ann">@SerialName("Data")</span> <span class="kw">val</span> data: T? = <span class="kw">null</span>,
+    <span class="ann">@SerialName("Success")</span> <span class="kw">val</span> success: Boolean = <span class="kw">false</span>,
+    <span class="ann">@SerialName("Message")</span> <span class="kw">val</span> message: String? = <span class="kw">null</span>
+)
+
+<span class="ann">@Serializable</span>
+<span class="kw">data class</span> <span class="type">EquipDto</span>(
+    <span class="ann">@SerialName("GUID")</span> <span class="kw">val</span> guid: String?,
+    <span class="ann">@SerialName("Barcode")</span> <span class="kw">val</span> barcode: String?,
+    ...
+)</code></pre>
+
+  <h3>發送請求（OkHttp 範例）</h3>
+  <pre><code><span class="kw">suspend fun</span> <span class="fn">upload</span>(context: Context, repo: LocalRepository): Result&lt;Unit&gt; =
+    withContext(Dispatchers.IO) {
+        <span class="kw">val</span> jsonString = ApiParser.json.encodeToString(UploadBody.serializer(), payload)
+        <span class="kw">val</span> req = Request.Builder()
+            .url(ApiConfig.join(ApiConfig.baseUrl(context), ApiConfig.UPLOAD_PATH))
+            .post(jsonString.toRequestBody(ApiConfig.jsonMediaType))
+            .addHeader(<span class="str">"X-Device-Token"</span>, buildDeviceToken(context))
+            .build()
+        <span class="kw">val</span> (code, body) = ApiConfig.client.newCall(req).execute().use { ... }
+        ApiParser.parseHttpOrThrow&lt;Int&gt;(code, body)  <span class="cmt">// 解析 Data 欄位</span>
+    }</code></pre>
+
+  <h3>本地資料（Room）</h3>
+  <pre><code><span class="ann">@Entity</span>(tableName = <span class="str">"equip"</span>)
+<span class="kw">data class</span> <span class="type">EquipEntity</span>(<span class="ann">@PrimaryKey</span> <span class="kw">val</span> guid: String, ...)
+
+<span class="ann">@Dao</span>
+<span class="kw">interface</span> <span class="type">EquipDao</span> {
+    <span class="ann">@Query("SELECT * FROM equip WHERE inspected = 0")</span>
+    <span class="kw">suspend fun</span> getUninspected(): List&lt;EquipEntity&gt;
+}</code></pre>
+</section>
+
+<!-- ========== 6. 資料流範例 ========== -->
+<section>
+  <h2>6. 完整資料流：登入 → 下載 → 巡檢 → 上傳</h2>
+  <div class="card">
+    <ol style="padding-left:1.25rem;color:var(--muted);font-size:0.9rem;">
+      <li style="margin-bottom:0.5rem"><strong style="color:var(--text)">登入</strong>：LoginViewModel → LocalRepository.validateUser() → Room UserDao（密碼 AES 比對）→ DataStore 存 username</li>
+      <li style="margin-bottom:0.5rem"><strong style="color:var(--text)">下載</strong>：DownloadViewModel → ApiRepository.download() → 解析 DownloadDto → replaceAllFromDownload() 寫入 Room</li>
+      <li style="margin-bottom:0.5rem"><strong style="color:var(--text)">巡檢</strong>：InspectViewModel 掃描條碼 → 查 EquipEntity → 更新 abnormal 欄位</li>
+      <li><strong style="color:var(--text)">上傳</strong>：UploadViewModel → getEquipInspected() → toUploadDto() → POST upload → 成功則 deleteEquipByGuids()</li>
+    </ol>
+  </div>
+</section>
+
+<!-- ========== 7. 你該先讀哪些檔 ========== -->
+<section>
+  <h2>7. 建議閱讀順序（由外而內）</h2>
+  <table>
+    <tr><td>1</td><td>AndroidManifest.xml — 權限、Activity 入口</td></tr>
+    <tr><td>2</td><td>LoginActivity.kt + LoginViewModel.kt — 最簡單的 MVVM 範例</td></tr>
+    <tr><td>3</td><td>MainActivity.kt + NavViewModel.kt — Fragment 切換</td></tr>
+    <tr><td>4</td><td>DownloadFragment.kt + DownloadViewModel.kt — 網路 + UI 狀態</td></tr>
+    <tr><td>5</td><td>ApiRepository.kt + ApiParser.kt — 後端通訊</td></tr>
+    <tr><td>6</td><td>LocalRepository.kt + EquipDao.kt — 本地 DB</td></tr>
+  </table>
+</section>
+
+<footer>
+  產生日期：2026-06-23 · 專案：EquipInspectAndroid · compileSdk 35 · minSdk 26 · JDK 17
+</footer>
+
+<script>
+  function showTab(id) {
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    event.target.classList.add('active');
+  }
+</script>
+</body>
+</html>

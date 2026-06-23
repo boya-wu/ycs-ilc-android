@@ -38,6 +38,19 @@ class AppViewModel : ViewModel() {
     val parkingSpots = MockData.parkingSpots
     val shifts = MockData.shifts
 
+    val staffList get() = MockData.staffList
+    val drivers get() = MockData.drivers
+    val vendorDrivers get() = MockData.vendorDrivers
+    val tankNos get() = MockData.tankNos
+    val tsmcFabs get() = MockData.tsmcFabs
+
+    fun resolveStaffLabel(id: String) = MockData.resolveStaffLabel(id)
+    fun resolveVendorLabel(id: String) = MockData.resolveVendorLabel(id)
+    fun resolveDriverLabel(id: String) = MockData.resolveDriverLabel(id)
+    fun resolveTankLabel(id: String) = MockData.resolveTankLabel(id)
+    fun resolveFabLabel(id: String) = MockData.resolveFabLabel(id)
+    fun resolveSpotLabel(id: String) = MockData.resolveSpotLabel(id)
+
     // Workflow steps
     private val _wfStep1 = MutableStateFlow<String?>(null)
     val wfStep1: StateFlow<String?> = _wfStep1.asStateFlow()
@@ -169,12 +182,4 @@ class AppViewModel : ViewModel() {
                 if (latest.type == "上班") latest.name else null
             }
             .distinct()
-}
-
-class NavViewModel : ViewModel() {
-    private val _currentTab = MutableStateFlow(NavTab.HOME)
-    val currentTab: StateFlow<NavTab> = _currentTab.asStateFlow()
-
-    fun select(tab: NavTab) { _currentTab.value = tab }
-    fun reset() { _currentTab.value = NavTab.HOME }
 }

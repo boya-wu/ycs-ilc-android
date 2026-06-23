@@ -97,15 +97,15 @@ class WorkflowFragment : Fragment(), VirtualKeyboardDialog.Listener {
         val s3 = appVm.wfStep3.value
         val s4 = appVm.wfStep4.value
 
-        binding.txtStep1Value.text = s1?.let { MockData.resolveStaffLabel(it) } ?: getString(R.string.tap_to_input)
+        binding.txtStep1Value.text = s1?.let { appVm.resolveStaffLabel(it) } ?: getString(R.string.tap_to_input)
         binding.txtStep2Value.text = when (workflowType) {
-            WorkflowType.EXIT -> s2?.let { MockData.resolveVendorLabel(it) }
-            else -> s2?.let { MockData.resolveDriverLabel(it) }
+            WorkflowType.EXIT -> s2?.let { appVm.resolveVendorLabel(it) }
+            else -> s2?.let { appVm.resolveDriverLabel(it) }
         } ?: getString(R.string.tap_to_input)
-        binding.txtStep3Value.text = s3?.let { MockData.resolveTankLabel(it) } ?: getString(R.string.tap_to_input)
+        binding.txtStep3Value.text = s3?.let { appVm.resolveTankLabel(it) } ?: getString(R.string.tap_to_input)
         binding.txtStep4Value.text = when (workflowType) {
-            WorkflowType.DISPATCH -> s4?.let { MockData.resolveFabLabel(it) }
-            WorkflowType.ENTER -> s4?.let { MockData.resolveSpotLabel(it) }
+            WorkflowType.DISPATCH -> s4?.let { appVm.resolveFabLabel(it) }
+            WorkflowType.ENTER -> s4?.let { appVm.resolveSpotLabel(it) }
             WorkflowType.EXIT -> "-"
         } ?: getString(R.string.tap_to_input)
 
@@ -134,29 +134,29 @@ class WorkflowFragment : Fragment(), VirtualKeyboardDialog.Listener {
 
     private fun buildSummary(s1: String?, s2: String?, s3: String?, s4: String?): String {
         return buildString {
-            append("值班 Staff: ${MockData.resolveStaffLabel(s1 ?: "")}\n")
+            append("值班 Staff: ${appVm.resolveStaffLabel(s1 ?: "")}\n")
             append(when (workflowType) {
-                WorkflowType.EXIT -> "廠商 Vendor: ${MockData.resolveVendorLabel(s2 ?: "")}\n"
-                else -> "司機 Driver: ${MockData.resolveDriverLabel(s2 ?: "")}\n"
+                WorkflowType.EXIT -> "廠商 Vendor: ${appVm.resolveVendorLabel(s2 ?: "")}\n"
+                else -> "司機 Driver: ${appVm.resolveDriverLabel(s2 ?: "")}\n"
             })
-            append("槽體 Tank: ${MockData.resolveTankLabel(s3 ?: "")}\n")
-            if (workflowType == WorkflowType.DISPATCH) append("廠區 Fab: ${MockData.resolveFabLabel(s4 ?: "")}\n")
-            if (workflowType == WorkflowType.ENTER) append("停車格 Spot: ${MockData.resolveSpotLabel(s4 ?: "")}\n")
+            append("槽體 Tank: ${appVm.resolveTankLabel(s3 ?: "")}\n")
+            if (workflowType == WorkflowType.DISPATCH) append("廠區 Fab: ${appVm.resolveFabLabel(s4 ?: "")}\n")
+            if (workflowType == WorkflowType.ENTER) append("停車格 Spot: ${appVm.resolveSpotLabel(s4 ?: "")}\n")
         }
     }
 
     private fun openInput(step: Int) {
         pendingStep = step
         val (title, presets, presetOnly) = when (step) {
-            1 -> Triple(getString(R.string.step_staff), MockData.staffList.map { it.id }, false)
+            1 -> Triple(getString(R.string.step_staff), appVm.staffList.map { it.id }, false)
             2 -> when (workflowType) {
-                WorkflowType.EXIT -> Triple(getString(R.string.step_vendor), MockData.vendorDrivers.map { it.id }, false)
-                else -> Triple(getString(R.string.step_driver), MockData.drivers.map { it.id }, false)
+                WorkflowType.EXIT -> Triple(getString(R.string.step_vendor), appVm.vendorDrivers.map { it.id }, false)
+                else -> Triple(getString(R.string.step_driver), appVm.drivers.map { it.id }, false)
             }
-            3 -> Triple(getString(R.string.step_tank), MockData.tankNos, true)
+            3 -> Triple(getString(R.string.step_tank), appVm.tankNos, true)
             4 -> when (workflowType) {
-                WorkflowType.DISPATCH -> Triple(getString(R.string.step_fab), MockData.tsmcFabs, true)
-                WorkflowType.ENTER -> Triple(getString(R.string.step_spot), MockData.parkingSpots.map { it.spotId }, true)
+                WorkflowType.DISPATCH -> Triple(getString(R.string.step_fab), appVm.tsmcFabs, true)
+                WorkflowType.ENTER -> Triple(getString(R.string.step_spot), appVm.parkingSpots.map { it.spotId }, true)
                 WorkflowType.EXIT -> Triple("", emptyList(), true)
             }
             else -> Triple("", emptyList(), false)
