@@ -1,0 +1,6 @@
+<resources>
+    <style name="NavigationViewTextAppearance" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:textSize">20sp</item>
+    </style>
+
+</resources>

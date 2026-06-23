@@ -1,0 +1,94 @@
+<resources>
+    <string name="app_name">美光消防設備巡檢系統</string>
+
+    <string name="desc_login_title">美光消防設備巡檢系統</string>
+    <string name="desc_login_user_icon">帳號圖示</string>
+    <string name="desc_login_user_hint">請輸入帳號</string>
+    <string name="desc_login_password_icon">密碼圖示</string>
+    <string name="desc_login_password_hint">請輸入密碼</string>
+    <string name="desc_login_submit">登入</string>
+    <string name="desc_login_copyright">Copyright © YU-CHEN SYSTEM Technology corp. ™</string>
+    <string name="desc_login">登入</string>
+    <string name="desc_login_logging_in">登入中</string>
+    <string name="desc_login_success">登入成功</string>
+
+    <string name="desc_top_nav_title">消防設備巡檢系統</string>
+    <string name="desc_top_nav_submit">登出</string>
+
+    <string name="desc_bottom_nav_inspect">巡檢</string>
+    <string name="desc_bottom_nav_uninspected">未巡檢</string>
+    <string name="desc_bottom_nav_inspected">已巡檢</string>
+    <string name="desc_bottom_nav_download">下載</string>
+    <string name="desc_bottom_nav_upload">上傳</string>
+    <string name="desc_bottom_nav_logout">登出</string>
+
+    <string name="desc_menu_header">選項</string>
+    <string name="desc_menu_admin">系統管理者</string>
+    <string name="desc_menu_id">取得裝置資訊</string>
+    <string name="desc_menu_log">匯出LOG紀錄</string>
+    <string name="desc_menu_setting">設定</string>
+
+    <string name="desc_inspect_equip">設備編號</string>
+    <string name="desc_inspect_equip_select">選擇設備</string>
+    <string name="desc_inspect_equip_hint">請掃描設備條碼</string>
+    <string name="desc_inspect_item">項目</string>
+    <string name="desc_inspect_area">位置</string>
+    <string name="desc_inspect_replace_medicine_date">換藥日期</string>
+    <string name="desc_inspect_abnormal">異常項目</string>
+    <string name="desc_inspect_abnormal_note_hint">請選擇或輸入異常說明</string>
+    <string name="desc_inspect_submit">確認</string>
+    <string name="desc_inspect_clear">清除</string>
+
+    <string name="desc_card_equip">設備編號</string>
+    <string name="desc_card_item">項目</string>
+    <string name="desc_card_area">位置</string>
+    <string name="desc_card_abnormal">異常項目</string>
+
+    <string name="desc_category_item_format">%1$s - %2$s</string>
+    <string name="desc_building_area_format">%1$s - %2$s</string>
+
+    <string name="desc_wifi_signal">wifi訊號元件</string>
+    <string name="desc_wifi_level_text">%1$s (%2$d dBm)</string>
+    <string name="desc_wifi_dash">—</string>
+    <string name="desc_wifi_level_0">極差/無訊號</string>
+    <string name="desc_wifi_level_1">差</string>
+    <string name="desc_wifi_level_2">普通</string>
+    <string name="desc_wifi_level_3">良好</string>
+    <string name="desc_wifi_level_4">最佳</string>
+    <string name="desc_wifi_perm_denied">未授權 Wi-Fi 權限，無法讀取訊號</string>
+
+    <string name="desc_download_status">連線狀態</string>
+    <string name="desc_download_rssi">連線強度</string>
+    <string name="desc_download_need_upload">未傳筆數</string>
+    <string name="desc_download_submit">下載</string>
+    <string name="desc_download_connected">已連線</string>
+    <string name="desc_download_disconnected">未連線</string>
+    <string name="desc_download">下載</string>
+    <string name="desc_download_downloading">下載中</string>
+    <string name="desc_download_success">下載成功</string>
+    <string name="desc_download_failed_fmt">下載失敗：%1$s</string>
+    <string name="desc_download_need_upload_fmt">%1$d 筆</string>
+
+    <string name="desc_upload_status">連線狀態</string>
+    <string name="desc_upload_rssi">連線強度</string>
+    <string name="desc_upload_record_qty">上傳筆數</string>
+    <string name="desc_upload_submit">上傳</string>
+    <string name="desc_upload_connected">已連線</string>
+    <string name="desc_upload_disconnected">未連線</string>
+    <string name="desc_upload">上傳</string>
+    <string name="desc_upload_uploading">上傳中</string>
+    <string name="desc_upload_success">上傳成功</string>
+    <string name="desc_upload_failed_fmt">上傳失敗：%1$s</string>
+    <string name="desc_upload_record_qty_fmt">%1$d 筆</string>
+
+    <string name="desc_setting_api">API URL</string>
+    <string name="desc_setting_hint">請輸入API URL</string>
+    <string name="desc_setting_limit_window">刷條碼限制間隔(秒)</string>
+    <string name="desc_setting_limit_window_hint">請輸入刷條碼限制間隔秒數</string>
+    <string name="desc_setting_testing">測試連線中</string>
+    <string name="desc_setting_test_save">測試連線並存檔</string>
+
+    <string name="desc_dialog_title">詳細資料</string>
+    <string name="desc_dialog_close">關閉</string>
+
+</resources>

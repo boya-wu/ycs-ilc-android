@@ -1,0 +1,8 @@
+<resources>
+    <declare-styleable name="WifiSignalView">
+        <!-- 預設顯示的等級 0..4 -->
+        <attr name="wifiLevel" format="integer" />
+        <!-- 切換圖示時是否做淡入淡出 -->
+        <attr name="animateChanges" format="boolean" />
+    </declare-styleable>
+</resources>

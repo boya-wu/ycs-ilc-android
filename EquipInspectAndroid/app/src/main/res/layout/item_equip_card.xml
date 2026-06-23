@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="8dp"
+    android:layout_marginRight="8dp"
+    android:layout_marginTop="0dp"
+    android:layout_marginBottom="8dp"
+    android:background="@color/white"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="6dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="8dp">
+
+        <!-- 設備編號 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:text="@string/desc_card_equip"
+                android:layout_width="96dp"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginEnd="16dp"
+                android:minHeight="24dp"/>
+
+            <TextView
+                android:id="@+id/txtBarcode"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="20sp"
+                android:minHeight="24dp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:scrollHorizontally="true" />
+        </LinearLayout>
+
+        <!-- 設備項目 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp">
+
+            <TextView
+                android:text="@string/desc_card_item"
+                android:layout_width="96dp"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginEnd="16dp"
+                android:minHeight="24dp"/>
+
+            <TextView
+                android:id="@+id/txtItemName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="20sp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:scrollHorizontally="true" />
+        </LinearLayout>
+
+        <!-- 設備位置 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp">
+
+            <TextView
+                android:text="@string/desc_card_area"
+                android:layout_width="96dp"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginEnd="16dp"
+                android:minHeight="24dp"/>
+
+            <TextView
+                android:id="@+id/txtAreaName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="20sp"
+                android:minHeight="24dp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:scrollHorizontally="true" />
+        </LinearLayout>
+
+        <!-- 巡檢結果（可隱藏） -->
+        <LinearLayout
+            android:id="@+id/rowAbnormal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp"
+            android:visibility="gone">
+
+            <TextView
+                android:text="@string/desc_card_abnormal"
+                android:layout_width="96dp"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginEnd="16dp"
+                android:minHeight="24dp"/>
+
+            <TextView
+                android:id="@+id/txtAbnormalName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="20sp"
+                android:minHeight="24dp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:scrollHorizontally="true" />
+        </LinearLayout>
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

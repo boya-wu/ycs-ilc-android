@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="6dp"
+    android:background="@color/white">
+
+    <!-- 外層 LinearLayout -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <!-- Scrollable 區域 -->
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:fillViewport="true">
+
+            <LinearLayout
+                android:id="@+id/layout_root"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <!-- 條碼輸入 -->
+                <com.yuchens.equipinspectandroid.ui.widget.NoKeyboardEditText
+                    android:id="@+id/edtBarcode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/desc_inspect_equip_hint"
+                    android:minHeight="48dp"
+                    android:textSize="20sp"
+                    android:inputType="text"
+                    android:imeOptions="actionDone"
+                    android:importantForAutofill="no"
+                    android:background="@android:drawable/edit_text" />
+
+                <!-- 設備選擇 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="16dp"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:text="@string/desc_inspect_equip_select"
+                        android:layout_width="96dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:layout_marginEnd="12dp"
+                        android:minHeight="48dp" />
+
+                    <Spinner
+                        android:id="@+id/spinnerEquip"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@android:drawable/btn_dropdown"
+                        android:minHeight="48dp" />
+                </LinearLayout>
+
+                <!-- 設備編號 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="8dp">
+
+                    <TextView
+                        android:text="@string/desc_inspect_equip"
+                        android:layout_width="96dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:layout_marginEnd="16dp"
+                        android:minHeight="48dp" />
+
+                    <TextView
+                        android:id="@+id/txtBarcode"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textSize="20sp"
+                        android:minHeight="48dp" />
+                </LinearLayout>
+
+                <!-- 設備項目 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="8dp">
+
+                    <TextView
+                        android:text="@string/desc_inspect_item"
+                        android:layout_width="96dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:layout_marginEnd="16dp"
+                        android:minHeight="48dp" />
+
+                    <TextView
+                        android:id="@+id/txtItemName"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textSize="20sp"
+                        android:minHeight="48dp" />
+                </LinearLayout>
+
+                <!-- 設備位置 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="8dp">
+
+                    <TextView
+                        android:text="@string/desc_inspect_area"
+                        android:layout_width="96dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:layout_marginEnd="16dp"
+                        android:minHeight="48dp" />
+
+                    <TextView
+                        android:id="@+id/txtAreaName"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textSize="20sp"
+                        android:minHeight="48dp" />
+                </LinearLayout>
+
+                <!-- 換藥日期 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="8dp">
+
+                    <TextView
+                        android:text="@string/desc_inspect_replace_medicine_date"
+                        android:layout_width="96dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:layout_marginEnd="16dp"
+                        android:minHeight="48dp" />
+
+                    <TextView
+                        android:id="@+id/txtReplaceDate"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textSize="20sp"
+                        android:minHeight="48dp" />
+                </LinearLayout>
+
+                <!-- 異常項目 + Spinner -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:text="@string/desc_inspect_abnormal"
+                        android:layout_width="96dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:layout_marginEnd="12dp"
+                        android:minHeight="48dp" />
+
+                    <Spinner
+                        android:id="@+id/spinnerAbnormal"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@android:drawable/btn_dropdown"
+                        android:minHeight="48dp" />
+                </LinearLayout>
+
+                <!-- 異常備註（多行 TextArea） -->
+                <EditText
+                    android:id="@+id/edtAbnormalNote"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/desc_inspect_abnormal_note_hint"
+                    android:importantForAutofill="no"
+                    android:inputType="textMultiLine"
+                    android:minLines="3"
+                    android:maxLines="6"
+                    android:gravity="top|start"
+                    android:scrollbars="vertical"
+                    android:layout_marginTop="8dp"
+                    android:minHeight="96dp"
+                    android:background="@android:drawable/edit_text" />
+            </LinearLayout>
+        </ScrollView>
+
+        <!-- 底部按鈕列：清除 + 確認 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_margin="16dp">
+
+            <Button
+                android:id="@+id/btnClear"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:minHeight="48dp"
+                android:padding="12dp"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:text="@string/desc_inspect_clear"
+                android:backgroundTint="@color/gray_button"
+                android:textColor="@color/white" />
+
+            <Space
+                android:layout_width="12dp"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/btnConfirm"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:minHeight="48dp"
+                android:padding="12dp"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:text="@string/desc_inspect_submit"
+                android:backgroundTint="@color/primary"
+                android:textColor="@color/white" />
+        </LinearLayout>
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
