@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="6dp"
+    android:layout_marginLeft="8dp"
+    android:layout_marginRight="8dp"
+    android:layout_marginTop="0dp"
+    android:layout_marginBottom="8dp"
+    app:cardBackgroundColor="@color/primary">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        android:gravity="center_vertical">
+
+        <!-- 未巡檢 -->
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/btnUninspected"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/ic_uninspected"
+            app:tint="@color/bottom_nav_tint"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:background="@drawable/bottom_nav_bg"
+            android:contentDescription="@string/desc_bottom_nav_uninspected" />
+
+        <!-- 已巡檢 -->
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/btnInspected"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/ic_inspected"
+            app:tint="@color/bottom_nav_tint"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:background="@drawable/bottom_nav_bg"
+            android:contentDescription="@string/desc_bottom_nav_inspected" />
+
+        <!-- 巡檢 -->
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/btnInspect"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/ic_inspect"
+            app:tint="@color/bottom_nav_tint"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:background="@drawable/bottom_nav_bg"
+            android:contentDescription="@string/desc_bottom_nav_inspect" />
+
+        <!-- 下載 -->
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/btnDownload"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/ic_download"
+            app:tint="@color/bottom_nav_tint"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:background="@drawable/bottom_nav_bg"
+            android:contentDescription="@string/desc_bottom_nav_download" />
+
+        <!-- 上傳 -->
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/btnUpload"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/ic_upload"
+            app:tint="@color/bottom_nav_tint"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:background="@drawable/bottom_nav_bg"
+            android:contentDescription="@string/desc_bottom_nav_upload" />
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

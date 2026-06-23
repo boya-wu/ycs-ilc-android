@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="6dp"
+    android:layout_margin="8dp"
+    app:cardBackgroundColor="@color/primary">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="4dp"
+        android:gravity="center_vertical">
+
+        <Button
+            android:id="@+id/btnTab1"
+            style="@style/BottomNavButton"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:text="@string/tab_home" />
+
+        <Button
+            android:id="@+id/btnTab2"
+            style="@style/BottomNavButton"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:text="@string/tab_transfer" />
+
+        <Button
+            android:id="@+id/btnTab3"
+            style="@style/BottomNavButton"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:text="@string/tab_alarm" />
+
+        <Button
+            android:id="@+id/btnTab4"
+            style="@style/BottomNavButton"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:text="@string/tab_shift" />
+
+        <Button
+            android:id="@+id/btnTab5"
+            style="@style/BottomNavButton"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:text="@string/tab_setting" />
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

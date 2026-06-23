@@ -1,3 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">TSMC ILC</string>
+    <string name="app_name">ILC 槽車轉運站</string>
+
+    <string name="login_title">台積電 ILC 化學品槽車轉運站</string>
+    <string name="login_subtitle">PDA 行動管理系統 Mobile Hub</string>
+    <string name="login_select_role">請選擇角色 Select Role</string>
+    <string name="role_staff">ILC 值班人員\nILC Duty Staff</string>
+    <string name="role_driver">ILC 司機\nILC Driver</string>
+    <string name="role_vendor">廠商司機\nVendor Driver</string>
+    <string name="login_copyright">Copyright © YU-CHEN SYSTEM Technology corp. ™</string>
+    <string name="login_staff_id_title">輸入值班人員工號 Enter Staff ID</string>
+    <string name="login_driver_id_title">輸入 ILC 司機工號 Enter Driver ID</string>
+    <string name="login_vendor_id_title">輸入廠商司機工號 Enter Vendor ID</string>
+
+    <string name="desc_menu">選單</string>
+    <string name="desc_logout">登出</string>
+    <string name="top_nav_user">%1$s</string>
+
+    <string name="tab_home">首頁\nHome</string>
+    <string name="tab_transfer">移轉作業\nTransfer</string>
+    <string name="tab_alarm">警報通知\nAlarm</string>
+    <string name="tab_shift">排班管理\nShift</string>
+    <string name="tab_setting">設定\nSetting</string>
+    <string name="tab_dispatch">出工作業\nDispatch</string>
+    <string name="tab_enter">進停車場\nEnter</string>
+    <string name="tab_records">工作紀錄\nRecords</string>
+    <string name="tab_exit">離場作業\nExit</string>
+    <string name="tab_history">歷史紀錄\nHistory</string>
+
+    <string name="dashboard_staff_title">值班儀表板 Duty Dashboard</string>
+    <string name="dashboard_driver_title">司機儀表板 Driver Dashboard</string>
+    <string name="dashboard_vendor_title">廠商儀表板 Vendor Dashboard</string>
+    <string name="dashboard_staff_shift">班別 Shift: %1$s</string>
+    <string name="dashboard_staff_status">狀態 Status: %1$s</string>
+    <string name="dashboard_driver_task">今日派車 Task: %1$s</string>
+    <string name="dashboard_driver_status">任務狀態 Status: %1$s</string>
+    <string name="dashboard_vendor_company">所屬廠商 Vendor: %1$s</string>
+    <string name="dashboard_vendor_tank">分配槽體 Tank: %1$s</string>
+    <string name="quick_actions">快速鍵 Quick Actions</string>
+    <string name="quick_dispatch">出工登記 Dispatch</string>
+    <string name="quick_enter">入場登記 Enter</string>
+    <string name="quick_exit">離場登記 Exit</string>
+    <string name="quick_punch">值班打卡 Punch</string>
+    <string name="quick_start_dispatch">開始出工 Start Dispatch</string>
+    <string name="quick_report_enter">回報入場 Report Enter</string>
+    <string name="quick_register_exit">登記離場 Register Exit</string>
+
+    <string name="workflow_dispatch_title">出工開始作業 Start Dispatch</string>
+    <string name="workflow_enter_title">進停車場作業 Enter Parking</string>
+    <string name="workflow_exit_title">廠商離場作業 Vendor Exit</string>
+    <string name="workflow_steps_dispatch">① ILC值班 → ② ILC司機 → ③ 槽體 → ④ 廠區</string>
+    <string name="workflow_steps_enter">① ILC值班 → ② ILC司機 → ③ 槽體 → ④ 停車格</string>
+    <string name="workflow_steps_exit">① ILC值班 → ② 廠商司機 → ③ 槽體</string>
+    <string name="step_staff">① ILC 值班人員 Staff</string>
+    <string name="step_driver">② ILC 司機 Driver</string>
+    <string name="step_vendor">② 廠商司機 Vendor Driver</string>
+    <string name="step_tank">③ 槽體編號 Tank</string>
+    <string name="step_fab">④ 廠區代碼 Fab</string>
+    <string name="step_spot">④ 停車格 Spot</string>
+    <string name="tap_to_input">點擊輸入 Tap to input</string>
+    <string name="confirm_summary">確認摘要 Summary</string>
+    <string name="btn_submit">確認送出 Submit</string>
+    <string name="btn_reset">重新輸入 Reset</string>
+    <string name="btn_confirm">確認 Confirm</string>
+    <string name="btn_cancel">取消 Cancel</string>
+    <string name="btn_clear">清除 Clear</string>
+
+    <string name="punch_title">值班打卡與排班 Punch &amp; Shift</string>
+    <string name="punch_clock_in">上班打卡 Clock-in</string>
+    <string name="punch_clock_out">下班打卡 Clock-out</string>
+    <string name="punch_on_duty_title">當前值班人員 On Duty</string>
+    <string name="punch_on_duty">在班人員:</string>
+    <string name="punch_no_staff">目前無值班人員 No staff on duty</string>
+    <string name="punch_recent">最近打卡 Recent Punch</string>
+    <string name="shift_schedule">排班表 Shift Schedule</string>
+
+    <string name="placeholder_transfer">移轉作業功能（原型佔位）\nTransfer operations placeholder for prototype.</string>
+    <string name="placeholder_alarm">警報通知功能（原型佔位）\nAlarm notification placeholder for prototype.</string>
+    <string name="placeholder_setting">系統設定（原型佔位）\nSettings placeholder for prototype.</string>
+    <string name="placeholder_history">歷史離場紀錄（原型佔位）\nExit history placeholder for prototype.</string>
+    <string name="placeholder_records">停車場車格狀態 Parking Status:</string>
 </resources>
