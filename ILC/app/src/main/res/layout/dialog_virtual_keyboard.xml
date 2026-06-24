@@ -4,96 +4,56 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="16dp"
+    android:padding="@dimen/padding_card"
     android:background="@color/white">
 
     <TextView
         android:id="@+id/txtDialogTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
+        android:textSize="@dimen/text_title"
         android:textStyle="bold"
         android:textColor="@color/primary"
-        android:layout_marginBottom="12dp" />
+        android:layout_marginBottom="@dimen/padding_row" />
 
-    <com.yuchens.ilcandroid.ui.widget.NoKeyboardEditText
+    <EditText
         android:id="@+id/etInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="48dp"
-        android:padding="8dp"
+        android:minHeight="@dimen/btn_min_height"
+        android:padding="10dp"
+        android:textSize="@dimen/text_body"
         android:background="@android:drawable/edit_text"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        android:layout_marginBottom="12dp" />
-
-    <LinearLayout
-        android:id="@+id/layoutPresets"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:visibility="gone"
-        android:layout_marginBottom="12dp" />
-
-    <LinearLayout
-        android:id="@+id/layoutNumpad"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <GridLayout
-            android:id="@+id/gridNumpad"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:columnCount="4"
-            android:layout_marginBottom="8dp" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/btnBackspace"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="←"
-                android:layout_marginEnd="4dp" />
-
-            <Button
-                android:id="@+id/btnClear"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/btn_clear"
-                android:layout_marginEnd="4dp" />
-        </LinearLayout>
-    </LinearLayout>
+        android:inputType="text"
+        android:imeOptions="actionDone"
+        android:layout_marginBottom="@dimen/padding_row" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="12dp">
+        android:orientation="horizontal">
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnCancel"
+            style="@style/Widget.IlcAndroid.Button.Secondary"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/btn_cancel"
-            android:layout_marginEnd="8dp"
-            android:backgroundTint="@color/gray_button"
-            android:textColor="@color/black" />
+            android:textSize="@dimen/text_label"
+            android:minHeight="@dimen/btn_min_height"
+            android:layout_marginEnd="@dimen/margin_small" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnConfirm"
+            style="@style/Widget.IlcAndroid.Button.Primary"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/btn_confirm"
-            android:backgroundTint="@color/primary"
-            android:textColor="@color/white" />
+            android:textSize="@dimen/text_label"
+            android:minHeight="@dimen/btn_min_height" />
     </LinearLayout>
 </LinearLayout>

@@ -10,40 +10,80 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="@dimen/padding_screen">
 
-        <TextView
-            android:id="@+id/txtWorkflowTitle"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:textColor="@color/primary"
-            android:layout_marginBottom="8dp" />
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="@dimen/margin_small">
 
-        <TextView
-            android:id="@+id/txtStepIndicator"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="13sp"
-            android:textColor="@color/black"
-            android:layout_marginBottom="16dp" />
+            <TextView
+                android:id="@+id/txtWorkflowTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textSize="@dimen/text_title"
+                android:textStyle="bold"
+                android:textColor="@color/primary" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnBack"
+                style="@style/Widget.IlcAndroid.Button.Secondary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/btn_back"
+                android:textSize="@dimen/text_label"
+                android:minHeight="@dimen/btn_min_height_sm"
+                android:minWidth="0dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnHome"
+                style="@style/Widget.IlcAndroid.Button.Secondary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_small"
+                android:text="@string/btn_home"
+                android:textSize="@dimen/text_label"
+                android:minHeight="@dimen/btn_min_height_sm"
+                android:minWidth="0dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp" />
+        </LinearLayout>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/rowStep1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            app:cardCornerRadius="8dp"
+            android:layout_marginBottom="@dimen/margin_small"
+            app:cardCornerRadius="@dimen/card_radius_sm"
             app:cardElevation="2dp"
             android:foreground="?attr/selectableItemBackground">
-            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                android:orientation="vertical" android:padding="12dp">
-                <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-                    android:text="@string/step_staff" android:textSize="12sp" android:textColor="@color/primary" />
-                <TextView android:id="@+id/txtStep1Value" android:layout_width="match_parent"
-                    android:layout_height="wrap_content" android:textSize="16sp"
-                    android:text="@string/tap_to_input" android:minHeight="40dp" android:gravity="center_vertical" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/padding_row">
+
+                <TextView
+                    android:id="@+id/txtStep1Label"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/step_staff"
+                    android:textSize="@dimen/text_label"
+                    android:textColor="@color/primary" />
+
+                <TextView
+                    android:id="@+id/txtStep1Value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_body"
+                    android:minHeight="@dimen/btn_min_height_sm"
+                    android:gravity="center_vertical" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
@@ -51,18 +91,32 @@
             android:id="@+id/rowStep2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            app:cardCornerRadius="8dp"
+            android:layout_marginBottom="@dimen/margin_small"
+            app:cardCornerRadius="@dimen/card_radius_sm"
             app:cardElevation="2dp"
             android:foreground="?attr/selectableItemBackground">
-            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                android:orientation="vertical" android:padding="12dp">
-                <TextView android:id="@+id/txtStep2Label" android:layout_width="match_parent"
-                    android:layout_height="wrap_content" android:text="@string/step_driver"
-                    android:textSize="12sp" android:textColor="@color/primary" />
-                <TextView android:id="@+id/txtStep2Value" android:layout_width="match_parent"
-                    android:layout_height="wrap_content" android:textSize="16sp"
-                    android:text="@string/tap_to_input" android:minHeight="40dp" android:gravity="center_vertical" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/padding_row">
+
+                <TextView
+                    android:id="@+id/txtStep2Label"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/step_driver"
+                    android:textSize="@dimen/text_label"
+                    android:textColor="@color/primary" />
+
+                <TextView
+                    android:id="@+id/txtStep2Value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_body"
+                    android:minHeight="@dimen/btn_min_height_sm"
+                    android:gravity="center_vertical" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
@@ -70,17 +124,32 @@
             android:id="@+id/rowStep3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            app:cardCornerRadius="8dp"
+            android:layout_marginBottom="@dimen/margin_small"
+            app:cardCornerRadius="@dimen/card_radius_sm"
             app:cardElevation="2dp"
             android:foreground="?attr/selectableItemBackground">
-            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                android:orientation="vertical" android:padding="12dp">
-                <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-                    android:text="@string/step_tank" android:textSize="12sp" android:textColor="@color/primary" />
-                <TextView android:id="@+id/txtStep3Value" android:layout_width="match_parent"
-                    android:layout_height="wrap_content" android:textSize="16sp"
-                    android:text="@string/tap_to_input" android:minHeight="40dp" android:gravity="center_vertical" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/padding_row">
+
+                <TextView
+                    android:id="@+id/txtStep3Label"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/step_tank"
+                    android:textSize="@dimen/text_label"
+                    android:textColor="@color/primary" />
+
+                <TextView
+                    android:id="@+id/txtStep3Value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_body"
+                    android:minHeight="@dimen/btn_min_height_sm"
+                    android:gravity="center_vertical" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
@@ -88,18 +157,32 @@
             android:id="@+id/rowStep4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            app:cardCornerRadius="8dp"
+            android:layout_marginBottom="@dimen/margin_small"
+            app:cardCornerRadius="@dimen/card_radius_sm"
             app:cardElevation="2dp"
             android:foreground="?attr/selectableItemBackground">
-            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                android:orientation="vertical" android:padding="12dp">
-                <TextView android:id="@+id/txtStep4Label" android:layout_width="match_parent"
-                    android:layout_height="wrap_content" android:text="@string/step_fab"
-                    android:textSize="12sp" android:textColor="@color/primary" />
-                <TextView android:id="@+id/txtStep4Value" android:layout_width="match_parent"
-                    android:layout_height="wrap_content" android:textSize="16sp"
-                    android:text="@string/tap_to_input" android:minHeight="40dp" android:gravity="center_vertical" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/padding_row">
+
+                <TextView
+                    android:id="@+id/txtStep4Label"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/step_fab"
+                    android:textSize="@dimen/text_label"
+                    android:textColor="@color/primary" />
+
+                <TextView
+                    android:id="@+id/txtStep4Value"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_body"
+                    android:minHeight="@dimen/btn_min_height_sm"
+                    android:gravity="center_vertical" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
@@ -108,54 +191,57 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            app:cardCornerRadius="12dp"
+            app:cardCornerRadius="@dimen/card_radius"
             app:cardElevation="4dp"
-            android:layout_marginTop="8dp">
+            android:layout_marginTop="@dimen/margin_small">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="16dp">
+                android:padding="@dimen/padding_card">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/confirm_summary"
                     android:textStyle="bold"
+                    android:textSize="@dimen/text_label"
                     android:textColor="@color/primary" />
 
                 <TextView
                     android:id="@+id/txtSummary"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:textSize="14sp" />
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:textSize="@dimen/text_body" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginTop="12dp">
+                    android:layout_marginTop="@dimen/padding_row">
 
-                    <Button
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnReset"
+                        style="@style/Widget.IlcAndroid.Button.Secondary"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:layout_marginEnd="8dp"
+                        android:layout_marginEnd="@dimen/margin_small"
                         android:text="@string/btn_reset"
-                        android:backgroundTint="@color/gray_button"
-                        android:textColor="@color/black" />
+                        android:textSize="@dimen/text_label"
+                        android:minHeight="@dimen/btn_min_height" />
 
-                    <Button
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnSubmit"
+                        style="@style/Widget.IlcAndroid.Button.Primary"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="@string/btn_submit"
-                        android:backgroundTint="@color/primary"
-                        android:textColor="@color/white" />
+                        android:textSize="@dimen/text_label"
+                        android:minHeight="@dimen/btn_min_height" />
                 </LinearLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>

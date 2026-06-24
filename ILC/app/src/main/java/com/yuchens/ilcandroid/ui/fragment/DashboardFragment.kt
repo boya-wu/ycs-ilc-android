@@ -10,7 +10,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.yuchens.ilcandroid.R
-import com.yuchens.ilcandroid.data.NavTab
+import com.yuchens.ilcandroid.data.Screen
 import com.yuchens.ilcandroid.data.UserRole
 import com.yuchens.ilcandroid.databinding.FragmentDashboardBinding
 import com.yuchens.ilcandroid.ui.MainActivity
@@ -30,58 +30,52 @@ class DashboardFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.btnBack.setOnClickListener { (activity as MainActivity).logout() }
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 appVm.role.collect { role ->
                     when (role) {
-                        UserRole.STAFF -> showStaffDashboard()
-                        UserRole.DRIVER -> showDriverDashboard()
-                        UserRole.VENDOR -> showVendorDashboard()
+                        UserRole.STAFF -> showStaffHome()
+                        UserRole.DRIVER -> showDriverHome()
+                        UserRole.VENDOR -> showVendorHome()
                         null -> {}
                     }
                 }
             }
         }
+    }
 
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                appVm.userName.collect { binding.txtUserName.text = it }
-            }
+    private fun showStaffHome() {
+        binding.txtDashboardTitle.text = getString(R.string.home_staff_title)
+        binding.layoutQuickActions.removeAllViews()
+        addQuickAction(getString(R.string.quick_punch)) {
+            (activity as MainActivity).navigateTo(Screen.PUNCH)
         }
     }
 
-    private fun showStaffDashboard() {
-        binding.txtDashboardTitle.text = getString(R.string.dashboard_staff_title)
-        binding.txtInfoLine1.text = getString(R.string.dashboard_staff_shift, "日班 08:00–20:00")
-        binding.txtInfoLine2.text = getString(R.string.dashboard_staff_status, "值班中 On Duty")
+    private fun showDriverHome() {
+        binding.txtDashboardTitle.text = getString(R.string.home_driver_title)
         binding.layoutQuickActions.removeAllViews()
-        addQuickAction(getString(R.string.quick_dispatch)) { (activity as MainActivity).selectTab(NavTab.TRANSFER) }
-        addQuickAction(getString(R.string.quick_enter)) { (activity as MainActivity).selectTab(NavTab.TRANSFER) }
-        addQuickAction(getString(R.string.quick_exit)) { (activity as MainActivity).selectTab(NavTab.TRANSFER) }
-        addQuickAction(getString(R.string.quick_punch)) { (activity as MainActivity).selectTab(NavTab.SHIFT) }
+        addQuickAction(getString(R.string.quick_start_dispatch)) {
+            (activity as MainActivity).navigateTo(Screen.DISPATCH)
+        }
+        addQuickAction(getString(R.string.quick_report_enter)) {
+            (activity as MainActivity).navigateTo(Screen.ENTER)
+        }
     }
 
-    private fun showDriverDashboard() {
-        binding.txtDashboardTitle.text = getString(R.string.dashboard_driver_title)
-        binding.txtInfoLine1.text = getString(R.string.dashboard_driver_task, "Tank_B → F18A P1")
-        binding.txtInfoLine2.text = getString(R.string.dashboard_driver_status, "待出工 Pending")
+    private fun showVendorHome() {
+        binding.txtDashboardTitle.text = getString(R.string.home_vendor_title)
         binding.layoutQuickActions.removeAllViews()
-        addQuickAction(getString(R.string.quick_start_dispatch)) { (activity as MainActivity).selectTab(NavTab.DISPATCH) }
-        addQuickAction(getString(R.string.quick_report_enter)) { (activity as MainActivity).selectTab(NavTab.ENTER) }
-    }
-
-    private fun showVendorDashboard() {
-        binding.txtDashboardTitle.text = getString(R.string.dashboard_vendor_title)
-        binding.txtInfoLine1.text = getString(R.string.dashboard_vendor_company, "長春化工")
-        binding.txtInfoLine2.text = getString(R.string.dashboard_vendor_tank, "Tank_A @ P-06")
-        binding.layoutQuickActions.removeAllViews()
-        addQuickAction(getString(R.string.quick_register_exit)) { (activity as MainActivity).selectTab(NavTab.EXIT) }
+        addQuickAction(getString(R.string.quick_register_exit)) {
+            (activity as MainActivity).navigateTo(Screen.EXIT)
+        }
     }
 
     private fun addQuickAction(label: String, onClick: () -> Unit) {
         val btn = layoutInflater.inflate(R.layout.item_quick_action, binding.layoutQuickActions, false)
-        btn.findViewById<android.widget.Button>(R.id.btnQuick).apply {
+        btn.findViewById<com.google.android.material.button.MaterialButton>(R.id.btnQuick).apply {
             text = label
             setOnClickListener { onClick() }
         }

@@ -11,7 +11,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.yuchens.ilcandroid.R
-import com.yuchens.ilcandroid.data.MockData
+import com.yuchens.ilcandroid.data.Screen
 import com.yuchens.ilcandroid.data.WorkflowType
 import com.yuchens.ilcandroid.databinding.FragmentWorkflowBinding
 import com.yuchens.ilcandroid.ui.MainActivity
@@ -27,7 +27,6 @@ class WorkflowFragment : Fragment(), VirtualKeyboardDialog.Listener {
 
     private lateinit var workflowType: WorkflowType
     private var pendingStep = 1
-    private var showConfirm = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,46 +48,57 @@ class WorkflowFragment : Fragment(), VirtualKeyboardDialog.Listener {
             WorkflowType.EXIT -> getString(R.string.workflow_exit_title)
         }
 
-        val stepLabels = when (workflowType) {
-            WorkflowType.DISPATCH -> getString(R.string.workflow_steps_dispatch)
-            WorkflowType.ENTER -> getString(R.string.workflow_steps_enter)
-            WorkflowType.EXIT -> getString(R.string.workflow_steps_exit)
-        }
-        binding.txtStepIndicator.text = stepLabels
+        binding.btnBack.setOnClickListener { goBackToDashboard() }
+        binding.btnHome.setOnClickListener { (activity as MainActivity).logout() }
 
         binding.rowStep1.setOnClickListener { openInput(1) }
-        binding.rowStep2.setOnClickListener { if (appVm.wfStep1.value != null) openInput(2) }
-        binding.rowStep3.setOnClickListener { if (appVm.wfStep2.value != null) openInput(3) }
-        binding.rowStep4.setOnClickListener {
-            if (workflowType != WorkflowType.EXIT && appVm.wfStep3.value != null) openInput(4)
-        }
+        binding.rowStep2.setOnClickListener { openInput(2) }
+        binding.rowStep3.setOnClickListener { openInput(3) }
+        binding.rowStep4.setOnClickListener { openInput(4) }
 
         binding.btnSubmit.setOnClickListener {
             appVm.submitWorkflow()
-            (activity as MainActivity).selectTab(com.yuchens.ilcandroid.data.NavTab.HOME)
+            goBackToDashboard()
         }
         binding.btnReset.setOnClickListener {
             appVm.startWorkflow(workflowType)
-            showConfirm = false
             binding.layoutConfirm.visibility = View.GONE
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                launch {
-                    appVm.wfStep1.collect { updateSteps() }
-                }
-                launch {
-                    appVm.wfStep2.collect { updateSteps() }
-                }
-                launch {
-                    appVm.wfStep3.collect { updateSteps() }
-                }
-                launch {
-                    appVm.wfStep4.collect { updateSteps() }
-                }
+                launch { appVm.wfStep1.collect { updateSteps() } }
+                launch { appVm.wfStep2.collect { updateSteps() } }
+                launch { appVm.wfStep3.collect { updateSteps() } }
+                launch { appVm.wfStep4.collect { updateSteps() } }
             }
         }
+    }
+
+    private fun goBackToDashboard() {
+        (activity as MainActivity).navigateTo(Screen.HOME)
+    }
+
+    private fun tapHint(label: String) = getString(R.string.tap_to_input, label)
+
+    private fun stepLabel(step: Int): String = when (step) {
+        1 -> getString(R.string.step_staff)
+        2 -> if (workflowType == WorkflowType.EXIT) getString(R.string.step_vendor) else getString(R.string.step_driver)
+        3 -> getString(R.string.step_tank)
+        4 -> when (workflowType) {
+            WorkflowType.DISPATCH -> getString(R.string.step_fab)
+            WorkflowType.ENTER -> getString(R.string.step_spot)
+            WorkflowType.EXIT -> ""
+        }
+        else -> ""
+    }
+
+    private fun stepValue(step: Int): String? = when (step) {
+        1 -> appVm.wfStep1.value
+        2 -> appVm.wfStep2.value
+        3 -> appVm.wfStep3.value
+        4 -> appVm.wfStep4.value
+        else -> null
     }
 
     private fun updateSteps() {
@@ -97,29 +107,21 @@ class WorkflowFragment : Fragment(), VirtualKeyboardDialog.Listener {
         val s3 = appVm.wfStep3.value
         val s4 = appVm.wfStep4.value
 
-        binding.txtStep1Value.text = s1?.let { appVm.resolveStaffLabel(it) } ?: getString(R.string.tap_to_input)
+        binding.txtStep1Value.text = s1?.let { appVm.resolveStaffLabel(it) } ?: tapHint(stepLabel(1))
         binding.txtStep2Value.text = when (workflowType) {
             WorkflowType.EXIT -> s2?.let { appVm.resolveVendorLabel(it) }
             else -> s2?.let { appVm.resolveDriverLabel(it) }
-        } ?: getString(R.string.tap_to_input)
-        binding.txtStep3Value.text = s3?.let { appVm.resolveTankLabel(it) } ?: getString(R.string.tap_to_input)
+        } ?: tapHint(stepLabel(2))
+        binding.txtStep3Value.text = s3?.let { appVm.resolveTankLabel(it) } ?: tapHint(stepLabel(3))
         binding.txtStep4Value.text = when (workflowType) {
             WorkflowType.DISPATCH -> s4?.let { appVm.resolveFabLabel(it) }
             WorkflowType.ENTER -> s4?.let { appVm.resolveSpotLabel(it) }
             WorkflowType.EXIT -> "-"
-        } ?: getString(R.string.tap_to_input)
+        } ?: tapHint(stepLabel(4))
 
         binding.rowStep4.visibility = if (workflowType == WorkflowType.EXIT) View.GONE else View.VISIBLE
-        binding.txtStep2Label.text = if (workflowType == WorkflowType.EXIT) {
-            getString(R.string.step_vendor)
-        } else {
-            getString(R.string.step_driver)
-        }
-        binding.txtStep4Label.text = when (workflowType) {
-            WorkflowType.DISPATCH -> getString(R.string.step_fab)
-            WorkflowType.ENTER -> getString(R.string.step_spot)
-            WorkflowType.EXIT -> ""
-        }
+        binding.txtStep2Label.text = stepLabel(2)
+        binding.txtStep4Label.text = stepLabel(4)
 
         val complete = if (workflowType == WorkflowType.EXIT) {
             s1 != null && s2 != null && s3 != null
@@ -147,26 +149,25 @@ class WorkflowFragment : Fragment(), VirtualKeyboardDialog.Listener {
 
     private fun openInput(step: Int) {
         pendingStep = step
-        val (title, presets, presetOnly) = when (step) {
-            1 -> Triple(getString(R.string.step_staff), appVm.staffList.map { it.id }, false)
-            2 -> when (workflowType) {
-                WorkflowType.EXIT -> Triple(getString(R.string.step_vendor), appVm.vendorDrivers.map { it.id }, false)
-                else -> Triple(getString(R.string.step_driver), appVm.drivers.map { it.id }, false)
-            }
-            3 -> Triple(getString(R.string.step_tank), appVm.tankNos, true)
-            4 -> when (workflowType) {
-                WorkflowType.DISPATCH -> Triple(getString(R.string.step_fab), appVm.tsmcFabs, true)
-                WorkflowType.ENTER -> Triple(getString(R.string.step_spot), appVm.parkingSpots.map { it.spotId }, true)
-                WorkflowType.EXIT -> Triple("", emptyList(), true)
-            }
-            else -> Triple("", emptyList(), false)
-        }
-        VirtualKeyboardDialog.newInstance(title, presets, presetOnly)
+        val label = stepLabel(step)
+        VirtualKeyboardDialog.newInstance(label, tapHint(label))
             .show(childFragmentManager, "wf_step_$step")
+    }
+
+    private fun findNextEmptyStep(afterStep: Int): Int? {
+        val maxStep = if (workflowType == WorkflowType.EXIT) 3 else 4
+        for (step in (afterStep + 1)..maxStep) {
+            if (stepValue(step) == null) return step
+        }
+        return null
     }
 
     override fun onConfirmed(value: String) {
         appVm.setWorkflowStep(pendingStep, value)
+        val nextStep = findNextEmptyStep(pendingStep)
+        if (nextStep != null) {
+            binding.root.post { openInput(nextStep) }
+        }
     }
 
     override fun onDestroyView() {

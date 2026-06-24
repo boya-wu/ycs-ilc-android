@@ -1,0 +1,47 @@
+---
+description: ILC Android 專案範圍、流程與 YAGNI 開發原則
+globs: ILC/**/*
+alwaysApply: true
+---
+
+# ILC Android 專案規則
+
+## 功能範圍（以 flowchart.md 為唯一依據）
+
+只實作流程圖中的畫面與支線，不預建未列出的功能：
+
+| 角色 | 首頁快速鍵 | 流程 |
+|------|-----------|------|
+| ILC 值班人員 | ILC 值班打卡 | 上班 → 加入值班清單；下班 → 移除值班清單 |
+| ILC 司機 | 開始出工、回報入場 | 4 步驟輸入（值班→司機→槽體→廠區/停車格） |
+| 廠商司機 | 登記離場 | 3 步驟輸入（值班→廠商司機→槽體）→ 釋放停車格 |
+
+**禁止加入**（除非 flowchart.md 更新）：底部分頁、頂部標題列、移轉作業、警報、排班表、設定、工作紀錄、歷史紀錄等佔位功能。
+
+## 導覽架構
+
+- 登入（LoginActivity）→ 角色選擇 + 工號輸入
+- 首頁（DashboardFragment）→ 依角色顯示快速鍵，登出按鈕 inline 於首頁
+- 點快速鍵 → 對應流程 Fragment（Punch / Workflow）
+- 流程完成或按返回 → 回首頁；首頁按系統返回 → 結束 App
+- **不使用** TopNavFragment、BottomNavFragment、NavViewModel、NavTab
+
+## YAGNI + Inline First
+
+- 不為單次使用的邏輯抽 interface / 基底類別
+- 不預留「之後可能用到」的 optional 參數或設定物件
+- 導覽用 `Screen` enum + `MainActivity.navigateTo()`，不另建導覽框架
+- Mock 資料留在 `MockData`，ViewModel 只做流程狀態與 toast
+- 移除功能時同步刪除 layout、string、drawable，不留 dead code
+
+## UI 慣例
+
+- 雙語：繁中為主、英文為輔（strings.xml）
+- 輸入一律用 `VirtualKeyboardDialog` + 系統原生鍵盤
+- 流程頁面標題 inline 於內容區（含返回按鈕），不用 ActionBar / Toolbar
+
+## 新增功能前檢查
+
+1. flowchart.md 是否已有對應節點？
+2. 現有 Fragment 能否擴充，還是真的需要新畫面？
+3. 能否 inline 在現有 Activity/Fragment，而非新建抽象層？

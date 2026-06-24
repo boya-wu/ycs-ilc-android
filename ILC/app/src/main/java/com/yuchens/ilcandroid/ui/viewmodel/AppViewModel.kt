@@ -2,7 +2,6 @@ package com.yuchens.ilcandroid.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import com.yuchens.ilcandroid.data.MockData
-import com.yuchens.ilcandroid.data.NavTab
 import com.yuchens.ilcandroid.data.PunchInRecord
 import com.yuchens.ilcandroid.data.UserRole
 import com.yuchens.ilcandroid.data.WorkflowType
@@ -18,12 +17,6 @@ class AppViewModel : ViewModel() {
     private val _role = MutableStateFlow<UserRole?>(null)
     val role: StateFlow<UserRole?> = _role.asStateFlow()
 
-    private val _userId = MutableStateFlow("")
-    val userId: StateFlow<String> = _userId.asStateFlow()
-
-    private val _userName = MutableStateFlow("")
-    val userName: StateFlow<String> = _userName.asStateFlow()
-
     private val _toast = MutableStateFlow<String?>(null)
     val toast: StateFlow<String?> = _toast.asStateFlow()
 
@@ -36,7 +29,6 @@ class AppViewModel : ViewModel() {
     val punchRecords: StateFlow<List<PunchInRecord>> = _punchRecords.asStateFlow()
 
     val parkingSpots = MockData.parkingSpots
-    val shifts = MockData.shifts
 
     val staffList get() = MockData.staffList
     val drivers get() = MockData.drivers
@@ -64,21 +56,12 @@ class AppViewModel : ViewModel() {
     private val _activeWorkflow = MutableStateFlow<WorkflowType?>(null)
     val activeWorkflow: StateFlow<WorkflowType?> = _activeWorkflow.asStateFlow()
 
-    fun login(role: UserRole, employeeId: String) {
+    fun selectRole(role: UserRole) {
         _role.value = role
-        _userId.value = employeeId
-        _userName.value = when (role) {
-            UserRole.STAFF -> MockData.findStaff(employeeId)?.name ?: "陳建國"
-            UserRole.DRIVER -> MockData.findDriver(employeeId)?.name ?: "林大宏"
-            UserRole.VENDOR -> MockData.findVendorDriver(employeeId)?.name ?: "劉家慶"
-        }
-        showToast("登入成功 Login OK")
     }
 
     fun logout() {
         _role.value = null
-        _userId.value = ""
-        _userName.value = ""
         resetWorkflow()
     }
 

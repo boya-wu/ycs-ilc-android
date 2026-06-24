@@ -35,12 +35,6 @@ data class ParkingSpot(
     val vendor: String
 )
 
-data class ShiftAssignment(
-    val date: String,
-    val shiftType: String,
-    val assignedStaff: List<String>
-)
-
 data class PunchInRecord(
     val name: String,
     val role: String,
@@ -51,8 +45,4 @@ data class PunchInRecord(
 
 enum class WorkflowType { DISPATCH, ENTER, EXIT }
 
-enum class NavTab {
-    HOME, TRANSFER, ALARM, SHIFT, SETTING,
-    DISPATCH, ENTER, RECORDS,
-    EXIT, HISTORY
-}
+enum class Screen { HOME, PUNCH, DISPATCH, ENTER, EXIT }

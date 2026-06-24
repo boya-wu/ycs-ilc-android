@@ -3,7 +3,7 @@ package com.yuchens.ilcandroid.data
 object MockData {
 
     val staffList = listOf(
-        StaffMember("H5406340", "陳建國", "值班主管", "0912-345-678"),
+        StaffMember("H5406340", "吳柏亞", "值班主管", "0912-345-678"),
         StaffMember("H5406341", "王志明", "現場操作", "0923-456-789"),
         StaffMember("H5406342", "李明哲", "值班主管", "0934-567-890"),
         StaffMember("H5406343", "張家豪", "現場操作", "0945-678-901")
@@ -34,12 +34,6 @@ object MockData {
 
     val tsmcFabs = listOf("F6", "F14A", "F14B", "F18A P1", "F18B")
     val tankNos = listOf("Tank_A", "Tank_B", "Tank_C")
-
-    val shifts = mutableListOf(
-        ShiftAssignment("2026-06-23", "日班", listOf("陳建國", "王志明")),
-        ShiftAssignment("2026-06-23", "夜班", listOf("李明哲", "張家豪")),
-        ShiftAssignment("2026-06-24", "日班", listOf("陳建國", "李明哲"))
-    )
 
     fun findStaff(id: String): StaffMember? =
         staffList.find { it.id.equals(id, true) || it.name == id }
