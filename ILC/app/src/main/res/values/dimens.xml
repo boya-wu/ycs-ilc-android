@@ -13,7 +13,7 @@
     <!-- 文字大小 -->
     <dimen name="text_title">26sp</dimen>      <!-- 頁面標題 -->
     <dimen name="text_subtitle">15sp</dimen>   <!-- 副標題 -->
-    <dimen name="text_body">17sp</dimen>       <!-- 內文 -->
+    <dimen name="text_body">22sp</dimen>       <!-- 內文 -->
     <dimen name="text_label">22sp</dimen>     <!-- 標籤、按鈕文字 -->
     <dimen name="text_caption">16sp</dimen>    <!-- 輔助說明 -->
     <dimen name="text_large">26sp</dimen>      <!-- 登入頁大標 -->
